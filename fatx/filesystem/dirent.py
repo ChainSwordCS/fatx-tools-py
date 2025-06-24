@@ -52,7 +52,7 @@ class FatXDirent:
         self.last_access_time = ts(self.last_access_time_i)
 
         if self.file_name_length == DIRENT_DELETED:
-            self.file_name = self.file_name_bytes.split('\xff')[0]
+            self.file_name = str(self.file_name_bytes).split('\xff')[0]
         else:
             self.file_name = self.file_name_bytes[:self.file_name_length]
 
@@ -157,7 +157,7 @@ class FatXDirent:
                 ancestry.append(parent.file_name)
                 parent = parent.parent
 
-        return '/'.join(reversed(ancestry))
+        return ["/"].append(reversed(ancestry))
 
     def get_full_path(self):
         """Generate a full path string for this dirent.
@@ -166,7 +166,7 @@ class FatXDirent:
 
         Returns (str): Full path string including file name.
         """
-        return '/'.join([self.get_path(), self.file_name])
+        return ["/"].append([self.get_path(), self.file_name])
 
     ###########################################
     # TODO: need to move these to FatXVolume
