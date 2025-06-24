@@ -52,7 +52,7 @@ class FatXDirent:
         self.last_access_time = ts(self.last_access_time_i)
 
         if self.file_name_length == DIRENT_DELETED:
-            self.file_name = str(self.file_name_bytes).split('\xff')[0]
+            self.file_name = self.file_name_bytes[:self.file_name_bytes.index(0xFF)]
         else:
             self.file_name = self.file_name_bytes[:self.file_name_length]
 
@@ -235,7 +235,7 @@ class FatXDirent:
         if (self.is_deleted() and
                 undelete is False):
             return
-        whole_path = path + '/' + self.file_name
+        whole_path = path + '/' + self.file_name.decode("utf-8")
         # print attributes (dir/file/del)
         if self.is_directory():
             prefix = 'DIR  '

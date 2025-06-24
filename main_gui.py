@@ -291,7 +291,7 @@ class DrivePanel(ttk.Frame):
     def populate_directory(self, tree_root, stream):
         for dirent in stream:
             if dirent.is_deleted():
-                file_name = '[DELETED] {}'.format(dirent.file_name)
+                file_name = "[DELETED] "+dirent.file_name.decode("utf-8")
             else:
                 file_name = dirent.file_name
             if dirent.is_directory():
