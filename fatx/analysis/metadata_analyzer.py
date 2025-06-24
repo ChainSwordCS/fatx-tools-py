@@ -56,14 +56,14 @@ class FatXAnalyzer:
         if (max_clusters > self.volume.max_clusters or max_clusters == 0):
             max_clusters = self.volume.max_clusters
 
-        for cluster in range(1, max_clusters):
+        for cluster in list(range(1, max_clusters)):
             self.current_block = cluster
             cache = self.volume.read_cluster(cluster)
             if len(cache) != 0x4000:
                 LOG.warn("Failed to read cluster %i" % cluster)
                 continue
 
-            for x in range(256):
+            for x in list(range(256)):
                 offset = x * 0x40
 
                 name_len = cache[offset]

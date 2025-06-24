@@ -320,7 +320,7 @@ class FatXVolume(object):
 
         self.infile.seek(offset)
         LOG.debug("Reading dirent stream at: %s", POSITION)
-        for _ in xrange(256):
+        for _ in range(256):
             LOG.debug(" Reading dirent at: %s", POSITION)
             dirent = FatXDirent.from_file(self)
 
