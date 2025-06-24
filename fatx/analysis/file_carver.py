@@ -31,7 +31,7 @@ class FatXCarver:
             length = self.volume.length
 
         time0 = time.time()
-        for index in range(length / interval):
+        for index in range(length // interval):
             self.current_block = index
             offset = index * interval
             for signature in signatures:
