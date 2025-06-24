@@ -111,7 +111,7 @@ class FatXVolume(object):
 
         # TODO: Remove this in order to handle corrupted metadata
         if self.signature != FATX_SIGNATURE:
-            print("Invalid FATX signature!")
+            raise ValueError("Invalid FATX signature!")
 
     def read_file_allocation_table(self):
         """Reads the file allocation table and returns it as a cluster list.
