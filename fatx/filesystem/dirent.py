@@ -51,10 +51,11 @@ class FatXDirent:
         self.last_write_time = ts(self.last_write_time_i)
         self.last_access_time = ts(self.last_access_time_i)
 
+        # https://en.wikipedia.org/wiki/Code_page_437
         if self.file_name_length == DIRENT_DELETED:
-            self.file_name = self.file_name_bytes.split(b'\xff')[0].decode()
+            self.file_name = self.file_name_bytes.split(b'\xff')[0].decode("cp437")
         else:
-            self.file_name = self.file_name_bytes[:self.file_name_length].decode()
+            self.file_name = self.file_name_bytes[:self.file_name_length].decode("cp437")
 
     @classmethod
     def from_file(cls, volume):
