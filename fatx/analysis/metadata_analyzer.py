@@ -70,15 +70,15 @@ class FatXAnalyzer:
 
                 # Optimization: Try and avoid creating objects
                 # file attributes must be file or directory
-                if cache[offset+1] not in ('\x00', '\x10'):
+                if cache[offset+1] not in (0x00, 0x10):
                     continue
 
                 # DIRENT_NEVER_USED and DIRENT_NEVER_USED2
-                if name_len in ('\x00', '\x01', '\xff'):
+                if name_len in (0x00, 0x01, 0xFF):
                     continue
 
                 # if file is not deleted, ensure name length is less than max
-                if name_len != '\xE5' and name_len > '\x2A':
+                if name_len != 0xE5 and name_len > 0x2A:
                     continue
 
                 dirent = FatXOrphan(cache[offset:offset+0x40], self.volume)
