@@ -260,6 +260,8 @@ class DrivePanel(ttk.Frame):
                 ' (Offset={:#x} Length={:#x})'.format(partition.offset, partition.length)
             partition_root = self.tree.insert(drive_root, tk.END, text=partition_name)
 
+            # TODO: bad code
+            # like... at least print the full stack trace for debugging :P
             try:
                 partition.mount()
                 self.populate_directory(partition_root, partition.get_root())
@@ -291,7 +293,7 @@ class DrivePanel(ttk.Frame):
     def populate_directory(self, tree_root, stream):
         for dirent in stream:
             if dirent.is_deleted():
-                file_name = "[DELETED] "+dirent.file_name.decode("utf-8")
+                file_name = "[DELETED] "+dirent.file_name
             else:
                 file_name = dirent.file_name
             if dirent.is_directory():
