@@ -9,9 +9,42 @@ import os
 
 LOG = logging.getLogger('FATX.Analyzer')
 
+"""
+https://aerosoul94.github.io/blog/2020/02/25/fatx-reading-and-recovery.html#directory-entries
+https://free60.org/System-Software/Systems/FATX/
+https://en.wikipedia.org/wiki/Code_page_437#Character_set
+"""
+VALID_CHARS = set([b for b in (
+    # valid for both FATX and FAT16/FAT32
+    (string.ascii_uppercase + string.digits + '!#$%&\'()-@[]^_`{}~ ').encode('cp437') +
+    # valid for FATX but invalid in FAT16/FAT32 (short filenames)
+    (string.ascii_lowercase + '.[]').encode('cp437') +
+    # odd characters. but reportedly valid for both FATX and FAT16/FAT32.
+    'ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜ¢£¥₧ƒáíóúñÑªº¿⌐¬½¼¡«»░▒▓│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀αßΓπΣ'.encode('cp437') + # 0x80 to 0xE4 inclusive
+    'µτΦΘΩδ∞φε∩≡±≥≤⌠⌡÷≈°∙·√ⁿ²■'.encode('cp437') + # 0xE6 to 0xFE inclusive
+    b'\xff' +
+    # validity unclear; sometimes reserved in FAT16/FAT32
+    '¥'.encode('cp437') + # 0x9D
+    'σ'.encode('cp437') # 0xE5  https://cdn.cdnstep.com/eVrRDQb2Eky31GMLKbTm/8-1.thumb128.png
+)])
+#print('[DEBUG] VALID_CHARS: ' + str(VALID_CHARS))
 
-VALID_CHARS = set([b for b in (string.ascii_letters + string.digits + '!#$%&\'()-.@[]^_`{}~ ').encode()+b'\xff'])
+# UNUSED
+INVALID_CHARS = set([b for b in (
+    # reportedly invalid for FATX. for FAT16/FAT32, valid only for LFNs.
+    '+,;='.encode('cp437') +
+    # invalid for both FATX and FAT16/FAT32
+    '\"*/:<>?\\|'.encode('cp437') +
+    # 0x00 to 0x20 inclusive (TODO!!!!!)
+    b'\x00' + ' '.encode('cp437') + b'\x20' +
+    # etc.
+    b'\x7f'
+)])
+#print('[DEBUG] INVALID_CHARS: ' + str(INVALID_CHARS))
 
+# known invalid filenames which are an exception to the rules
+# UNUSED
+INVALID_FILENAMES = {".", ".."}
 
 class FatXOrphan(FatXDirent):
     """Representation of a dirent that has been been recovered by the analyzer.
