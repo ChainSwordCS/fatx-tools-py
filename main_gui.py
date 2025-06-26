@@ -1,13 +1,6 @@
-try:
-    import Tkinter as tk
-    import ttk
-    from tkFileDialog import askopenfilename, askdirectory
-    import tkMessageBox
-except ImportError:
-    import tkinter as tk
-    from tkinter import ttk
-    from tkinter.filedialog import askopenfilename, askdirectory
-    import tkinter.messagebox
+import tkinter as tk
+from tkinter import ttk, messagebox
+from tkinter.filedialog import askopenfilename, askdirectory
 
 from fatx.drive.drive import FatXDrive, x_signatures, x360_signatures
 from fatx.analysis.metadata_analyzer import FatXAnalyzer
@@ -123,7 +116,7 @@ class DrivePanel(ttk.Frame):
 
     def recover_partition(self):
         if self.thread is not None and self.thread.is_alive():
-            tkMessageBox.showerror("Error", "Please wait for analysis to finish.")
+            messagebox.showerror("Error", "Please wait for analysis to finish.")
             return
 
         # TODO: selection() returns all selected. Support this.
@@ -169,7 +162,7 @@ class DrivePanel(ttk.Frame):
 
     def run_orphan_scanner(self):
         if self.thread is not None and self.thread.is_alive():
-            tkMessageBox.showerror("Error", "Please wait for analysis to finish.")
+            messagebox.showerror("Error", "Please wait for analysis to finish.")
             return
 
         partition_node = self.tree.selection()[0]
@@ -218,7 +211,7 @@ class DrivePanel(ttk.Frame):
 
     def run_signature_scanner(self):
         if self.thread is not None and self.thread.is_alive():
-            tkMessageBox.showerror("Error", "Please wait for analysis to finish.")
+            messagebox.showerror("Error", "Please wait for analysis to finish.")
             return
 
         partition_node = self.tree.selection()[0]
