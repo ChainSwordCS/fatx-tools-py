@@ -65,9 +65,9 @@ class DrivePanel(ttk.Frame):
         self.context_menu = tk.Menu(self, tearoff=0)
         self.context_menu.add_command(label='Recover File System..',
                                       command=self.recover_partition)
-        self.context_menu.add_command(label='Perform Orphan Analysis',
+        self.context_menu.add_command(label='Perform Orphan Analysis (aka \"Analyze Metadata\")',
                                       command=self.run_orphan_scanner)
-        self.context_menu.add_command(label='Perform Signature Analysis',
+        self.context_menu.add_command(label='Perform Signature Analysis (aka \"File Carver\")',
                                       command=self.run_signature_scanner)
         self.context_menu.add_separator()
         self.context_menu.add_command(label='Expand Partition',
