@@ -10,10 +10,7 @@ import os
 LOG = logging.getLogger('FATX.Analyzer')
 
 
-VALID_CHARS = set(string.ascii_letters +
-                  string.digits +
-                  '!#$%&\'()-.@[]^_`{}~ ' +
-                  '\xff')
+VALID_CHARS = set([b for b in (string.ascii_letters + string.digits + '!#$%&\'()-.@[]^_`{}~ ').encode()+b'\xff'])
 
 
 class FatXOrphan(FatXDirent):
