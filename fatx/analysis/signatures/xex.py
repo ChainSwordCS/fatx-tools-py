@@ -4,7 +4,7 @@ from ..signature import FatXSignature
 class XEXSignature(FatXSignature):
     def test(self):
         # TODO: add support for beta XEX's
-        if self.read(4) == 'XEX2':
+        if self.read(4) == b'XEX2':
             return True
         return False
 
@@ -13,7 +13,7 @@ class XEXSignature(FatXSignature):
         security_offset = self.read_u32()
         header_count = self.read_u32()
         file_name_offset = None
-        for x in xrange(header_count):
+        for x in range(header_count):
             xid = self.read_u32()
             if xid == 0x000183FF:
                 file_name_offset = self.read_u32()

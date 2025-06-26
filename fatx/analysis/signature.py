@@ -82,12 +82,12 @@ class FatXSignature(object):
 
     def read_cstring(self):
         """Utility method for reading a null terminated C string."""
-        s = []
+        s = b''
         while True:
             c = self.read(1)
-            if c == chr(0):
-                return "".join(s)
-            s.append(c)
+            if c == b'\x00':
+                return s.decode("cp437")
+            s += c
 
     def read_wstring(self):
         """Utility method for reading a null terminated Unicode string."""

@@ -3,7 +3,7 @@ from ..signature import FatXSignature
 
 class PDBSignature(FatXSignature):
     def test(self):
-        magic = 'Microsoft C/C++ MSF 7.00\r\n\x1A\x44\x53\0\0\0'
+        magic = b'Microsoft C/C++ MSF 7.00\r\n\x1A\x44\x53\0\0\0'
         if self.read(0x20) == magic:
             return True
         return False

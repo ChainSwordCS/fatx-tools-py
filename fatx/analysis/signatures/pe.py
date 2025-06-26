@@ -3,7 +3,7 @@ from ..signature import FatXSignature
 
 class PESignature(FatXSignature):
     def test(self):
-        if self.read(4) == 'MZ\x90\0':
+        if self.read(4) == b'MZ\x90\0':
             return True
         return False
 

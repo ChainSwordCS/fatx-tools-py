@@ -4,7 +4,7 @@ from ..signature import FatXSignature
 class XBESignature(FatXSignature):
     def test(self):
         magic = self.read(4)
-        if magic == 'XBEH':
+        if magic == b'XBEH':
             return True
         return False
 
