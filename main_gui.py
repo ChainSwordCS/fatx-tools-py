@@ -11,6 +11,7 @@ import threading
 import time
 import logging
 import argparse
+import traceback
 
 LOG = logging.getLogger("FATX")
 
@@ -260,7 +261,9 @@ class DrivePanel(ttk.Frame):
                 self.populate_directory(partition_root, partition.get_root())
                 self.partition_nodes[partition_root] = partition
             except Exception as e:
-                print(e)
+                print('Exception caught by try-catch block')
+                traceback.print_exc()
+                print('Continuing execution...')
 
         self.drive_nodes[drive_root] = drive
 
